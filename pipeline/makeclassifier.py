@@ -31,13 +31,13 @@ def computeMaxScore(PSSM, seq, letters={"A":0,"C":1,"T":2,"G":3}):
 #####    
         
 with open("negative.fa") as F:
-    neg=F.readlines()
-nneg= len(neg)/2
+    neg = F.readlines()
+nneg = len(neg)/2
 
 with open("trimmedseqs.fa") as F:
     pos=F.readlines()
 npos= len(pos)/2
-nmotifs = sys.argv[1]
+nmotifs = int(sys.argv[1])
 
 #Calculate Features
 allPSSMFiles = ["segment"+str(i)+"-"+str(j) for i in xrange(1,9) for j in xrange(nmotifs)]
@@ -52,7 +52,7 @@ for M in allPSSMs:
         NegFeatures[i].append(computeMaxScore(M,neg[i*2+1]))
 
 #X: each sample is a row, each column is a feature
-X=numpy.array(PosFeatures + random.sample(NegFeatures,npos))
+X = numpy.array(PosFeatures + random.sample(NegFeatures,npos))
 #y: labels
 y = [1 for x in xrange(npos)] + [0 for x in xrange(npos)]           
 

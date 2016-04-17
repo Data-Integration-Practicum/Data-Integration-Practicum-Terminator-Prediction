@@ -22,7 +22,7 @@ with open("trimmedseqs.fa",'w') as out:
         if len(seq) > 400:
             out.write(head)
             out.write(seq[-400:])
-            out.write("\n")	
+            out.write("\n")
             for i in xrange(8):
                 allFiles[i].write(head)
                 if i == 0:
