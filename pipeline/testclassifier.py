@@ -1,4 +1,7 @@
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+
 import sys
 import numpy
 import random
@@ -32,7 +35,7 @@ def computeMaxScore(PSSM, seq, letters={"A":0,"C":1,"T":2,"G":3}):
     
 #####    
         
-with open("NegativeRegions.txt") as F:
+with open("negative.fa") as F:
     neg=F.readlines()
 nneg = len(neg)/2
 with open("trimmedseqs.fa") as F:
@@ -60,9 +63,21 @@ y = [1 for x in xrange(npos)] + [0 for x in xrange(npos)]
 y = numpy.array(y)       
 
 clf = DecisionTreeClassifier(criterion="entropy",max_depth=4)
-clf.fit(X,y)
+
+# Random forest classifier
+for i in xrange(5,40):
+    rf = RandomForestClassifier(criterion="entropy", max_depth=i)
+    # clf.fit(X,y)
+    rf.fit(X, y)
+    scores = cross_validation.cross_val_score(rf, X, y, cv=5)
+    print "This is the score for max-depth of " + str(i)
+    print scores
+    print sum(scores)/5
+
 scores = cross_validation.cross_val_score(clf, X, y, cv=5)
-print scores
+
+
+
 
 #clf.fit(X,y)
 #joblib.dump(clf, 'classifier') 
