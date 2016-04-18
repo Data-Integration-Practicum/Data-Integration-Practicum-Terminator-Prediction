@@ -31,7 +31,7 @@ def computeMaxScore(PSSM, seq, letters={"A":0,"C":1,"T":2,"G":3}):
         for nt in xrange(len(PSSM[0])):
             score += int(PSSM[letters[seq[start+nt]]][nt])  
         scores.append(score)  
-    return max(scores)  
+    return max(scores)
     
 #####    
         
