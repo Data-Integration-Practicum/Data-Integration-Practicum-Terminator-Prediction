@@ -10,7 +10,8 @@ if [ "$1" != "" ]; then # && "$2" != ""];
 	#Make the PSSMs
 	for f in $listOfSegments
 	do `mkdir meme_out/$f`
-		`/Users/veryfat/meme/bin/meme $f.fa -dna -mod oops -nmotifs $NMOTIFS -maxw 12 -oc meme_out/$f`
+		`./meme/bin/meme $f.fa —p 6 dna -mod oops -nmotifs $NMOTIFS -maxw 12 -oc meme_out/$f`
+		#`/Users/veryfat/meme/bin/meme $f.fa -dna -mod oops -nmotifs $NMOTIFS -maxw 12 -oc meme_out/$f`
 		echo "MEME ran"
 		#Writes the PSSMs as segment1-0, segment1-1 .... segment8-($NMOTIFS-1)
 		`python getpssm.py meme_out/$f/meme.txt $f $NMOTIFS`
