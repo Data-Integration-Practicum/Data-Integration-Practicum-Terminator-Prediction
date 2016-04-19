@@ -2,8 +2,9 @@ import sys
 
 with open(sys.argv[1]) as F:
     contents = F.readlines();
-with open("trimmedseqs.fa",'w') as out:
-    allFiles = [open("segment1.fa",'w'),open("segment2.fa",'w'),open("segment3.fa",'w'),open("segment4.fa",'w'),open("segment5.fa",'w'),open("segment6.fa",'w'),open("segment7.fa",'w'),open("segment8.fa",'w')]
+name = sys.argv[2]
+with open(name + "/trimmedseqs.fa",'w') as out:
+    allFiles = [open(name + "/segment1.fa",'w'),open(name + "/segment2.fa",'w'),open(name + "/segment3.fa",'w'),open(name + "/segment4.fa",'w'),open(name + "/segment5.fa",'w'),open(name + "/segment6.fa",'w'),open(name + "/segment7.fa",'w'),open(name + "/segment8.fa",'w')]
     j = 0
     while j < len(contents):
         head = contents[j]

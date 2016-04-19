@@ -1,25 +1,16 @@
 #! /bin/bash
-if [ "$1" != "" ]; then # && "$2" != ""]; 
+if [ "$1" != "" && "$2" != "" ]; then
 	NMOTIFS=4	
-	#Split the input sequences into segments
-    `python splitsegments1.py $1`
-	echo "Split segments"
-	#Writes the file "trimmedseqs.fa" with all the segments, and the files
-	#"segment[1-8].fa" with the individual 50bp segments.
 	listOfSegments="segment1 segment2 segment3 segment4 segment5 segment6 segment7 segment8"	
 	#Make the PSSMs
 	for f in $listOfSegments
-	do `mkdir meme_out/$f`
-		`./meme/bin/meme $f.fa —p 6 dna -mod oops -nmotifs $NMOTIFS -maxw 12 -oc meme_out/$f`
-		#`/Users/veryfat/meme/bin/meme $f.fa -dna -mod oops -nmotifs $NMOTIFS -maxw 12 -oc meme_out/$f`
-		echo "MEME ran"
+	do `mkdir $1/$f`
+		`$2 $1/$f.fa dna -mod oops -nmotifs $NMOTIFS -maxw 12 -oc $1/$f`
 		#Writes the PSSMs as segment1-0, segment1-1 .... segment8-($NMOTIFS-1)
-		`python getpssm.py meme_out/$f/meme.txt $f $NMOTIFS`
-		echo "Gathered motifs"
+		`python getpssm.py $1/$f/meme.txt $f $NMOTIFS`
 	done
-	#Evaluate the PSSMs and GC content
-	#`python makeclassifier.py $NMOTIFS`
-	#Deploy the classifier on genome sequences 
+	`mkdir ./classifiers`
+	`python trainModel.py $1`
 else
-    echo "Enter input sequence file name as first parameter and input genome sequence file name as second parameter."
+    echo "Enter short name as first parameter and MEME location (e.g. /meme/bin/meme) as second parameter."
 fi
