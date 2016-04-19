@@ -19,22 +19,25 @@ results = pd.DataFrame(columns=columns)
 
 for seq_record in SeqIO.parse(genomeFile, "fasta"):
     i = 0
+    count = 0
     sequence = seq_record.seq
     while i + 400 < len(sequence):
         if i % 16000 == 0:
             print seq_record.id + " has been processed for " + str(i) + " bp"
+            print "Currently, " + str(count) + " segments are predicted as TTS"
+
 
         currSeq = str(sequence[i:i+400])
         prediction = 0
         
         if "N" not in currSeq:            
-            model.predict(currSeq)
+            prediction = model.predict(currSeq)
             
             if prediction == 1:
                 ## add seq_record.id, offset(i+300), nearby sequence(str(seq_record[i+300:i+400])), to results dataframe
                 curDF = pd.DataFrame([[seq_record.id, i+300,str(sequence[i+300:i+400])]], columns=columns)
                 results.append(curDF)
-                print "TTS found in" + sequence[i+300:i+400]
+                count = count + 1
                 
         i = i + 50
 
