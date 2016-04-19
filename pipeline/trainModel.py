@@ -13,7 +13,8 @@ import sys
 # The GO term as the only parameter that is passed in
 GO = sys.argv[1]
 
-rf = RandomForestClassifier(criterion="entropy", n_estimators = 300, max_depth = 100)
+rf = RandomForestClassifier(criterion="entropy", \
+	 n_estimators = 300, max_depth = 100, class_weight={0:100, 1:1})
 
 #####################
 # Get Train samples #
