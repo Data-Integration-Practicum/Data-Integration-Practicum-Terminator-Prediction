@@ -12,6 +12,7 @@
 \begin{center}
 {\huge \textbf{User's Guide}}\\
 Charlotte Darby, Yue Lu, Tony Tong\\
+\{cdarby, yuel2, xtong\} @andrew.cmu.edu\\
 Bioinformatics Data Integration Practicum 2016\\
 \end{center}
 
@@ -19,24 +20,28 @@ This bioinformatics pipeline is designed to predict transcription termination si
 
 \section*{Choose the TTS set}
 
-Our method of pattern characterization with MEME and random forests is possible on sets of about 200-600 termination sites. Visit \url{http://ensembl.gramene.org/biomart/martview/} to get the input sequences for the pipeline \cite{biomart}. Choose ``Plant genes 50'' as the database and ``Zea mays genes (AGPv3 (b5))'' as the dataset.\\
-\indent The dataset must be filtered so as to obtain 200-600 termination sites. Use a method such as GO terms to choose a set of genes that are more likely to have common regulatory elements near the TTS than a random set of termination sites. In the ``Filters'' panel, enter the name(s) or accession(s) of the GO term(s) chosen.\\
-\indent We characterize the patterns in the 300bp upstream and 100bp downstream of the end of a TTS, as characterized by the final base pair of a cDNA sequence. In the ``Attributes'' panel, choose cDNA sequences with 100 downstream flank. Ensure that the search returns the proper number of sequences by using ``Count'' and then obtain ``Results'' in a FASTA file. 
+\indent Our method of pattern characterization with MEME and random forests is possible on sets of about 200-600 termination sites. Visit \url{http://ensembl.gramene.org/biomart/martview/} to get the input sequences for the pipeline \cite{biomart}. Choose ``Plant genes 50'' as the database and ``Zea mays genes (AGPv3 (b5))'' as the dataset.\\
+\indent The dataset must be filtered so as to obtain 200-600 termination sites. Use a method such as GO terms to choose a set of genes that are more likely to have common regulatory elements near the TTS. In the ``Filters'' panel, enter the name(s) or accession(s) of the GO term(s) chosen.\\
+\indent We characterize the patterns in the 300bp upstream and 100bp downstream of the end of a TTS, which we define as the final base pair of a cDNA sequence. In the ``Attributes'' panel, choose cDNA sequences with 100 downstream flank. Ensure that the search returns the proper number of sequences by using ``Count'' and then obtain ``Results'' in a FASTA file. 
 
 \section*{Prerequisites}
-MEME 4.11.1 and Python 2.7 must be installed. The Python packages used are pandas, pickle, Bio, numpy, and sklearn. MEME can be obtained from \url{http://meme-suite.org/meme-software/4.11.1/meme_4.11.1.tar.gz}.
+\indent MEME 4.11.1 and Python 2.7 must be installed. The Python packages used are pandas, pickle, Bio, numpy, and sklearn. MEME can be obtained from \url{http://meme-suite.org/meme-software/4.11.1/meme_4.11.1.tar.gz}.
 
 \section*{Use the pipeline to characterize the TTS set}
 1. \indent Run \texttt{./splitsegments.sh} to prepare the dataset. The first argument is the file path of the FASTA file downloaded from BioMart. The second argument is a short name describing the dataset, e.g. photosynthesis. Type these arguments after the command \texttt{./splitsegments.sh}. New directories and files will be created where \texttt{./splitsegments.sh} is run; there must be write permissions in this location.\\
 
 \noindent 2. \indent After a dataset has been prepared with Step 1, run \texttt{./main.sh} to compute features and build a classifier. MEME will be run at this step. The first argument is the short name of the dataset chosen in Step 1. The second argument is the path to your MEME installation, e.g. \texttt{/meme/bin/meme}. Type these arguments after the command \texttt{./main.sh}. Files will be created for motifs and to build the random forest classifier; again, there must be write permissions in the directory where \texttt{./main.sh} is run. 
 
-\section*{\large Find new examples of the TTS pattern}
-Based on the input sequences to the previous step, a pattern has been characterized surrounding the termination sites. Now new TTS can be found in the maize genome. Download the repeat-masked version of genome 3.31, found at \url{ftp://ftp.ensemblgenomes.org/pub/plants/release-31/fasta/zea_mays/dna/Zea_mays.AGPv3.31.dna_rm.genome.fa.gz} \cite{maize}. Alternatively, individual repeat-masked chromosomes can be downloaded from the directory \url{ftp://ftp.ensemblgenomes.org/pub/plants/release-31/fasta/zea_mays/dna/}. According to Ensembl, in the rm version of the genome/chromosomes, ``interspersed repeats and low complexity regions are detected with the RepeatMasker tool and masked by replacing repeats with Ns.'' Since the maize genome is full of non-coding repeats, this decreases the search space for new TTS to regions of the genome that may contain genes.\\
-\noindent 3. \indent Run \texttt{python finalPrediction.py} to make predictions. The first argument is the short name of the dataset chosen in the first step. The second argument is the file path of the genome or chromosome file downloaded from Ensembl; type these arguments after the command \texttt{python finalPrediction.py}. A file \texttt{TTS.csv} will be created for the predicted sites so there must be write permissions.
+\section*{Choose the test data}
+\indent Based on the input sequences to Step 1, a pattern has been characterized surrounding the termination sites in Step 2. Now new TTS can be found in the maize genome. Download the repeat-masked version of genome 3.31, found at \url{ftp://ftp.ensemblgenomes.org/pub/plants/release-31/fasta/zea_mays/dna/Zea_mays.AGPv3.31.dna_rm.genome.fa.gz} \cite{maize}. Alternatively, individual repeat-masked chromosomes can be downloaded from the directory \url{ftp://ftp.ensemblgenomes.org/pub/plants/release-31/fasta/zea_mays/dna/}. According to Ensembl, in the rm version of the genome/chromosomes, ``interspersed repeats and low complexity regions are detected with the RepeatMasker tool and masked by replacing repeats with Ns.'' Since the maize genome is full of non-coding repeats, this decreases the search space for new TTS to regions of the genome that may contain genes.
 
-\section*{\large Sample datasets}
-Three datasets have been downloaded from BioMart for the GO terms \textit{response to salt stress}, \textit{photosynthesis}, and \textit{response to water deprivation} and are included with the program. These files can be input to Step 1 \texttt{./splitsegments.sh} with your choice of short name.
+\section*{Find new examples of the TTS pattern}
+
+\noindent 3. \indent Run \texttt{python finalPrediction.py} to make predictions. The first argument is the short name of the dataset chosen in Step 1. The second argument is the file path of the genome or chromosome file downloaded from Ensembl; type these arguments after the command \texttt{python finalPrediction.py}. A file \texttt{TTS.csv} will be created for the predicted sites so there must be write permissions.\\
+\indent The output from this pipeline is a CSV where each line corresponds to a predicted TTS. A line contains the name of the FASTA line in the genome/chromosome file base, the base pair offset (from the beginning of the line) where the TTS is predicted, and the 100bp region following the predicted TTS. 
+
+\section*{Sample datasets}
+Three datasets have been downloaded from BioMart for the GO terms \textit{response to salt stress}, \textit{photosynthesis}, and \textit{response to water deprivation} and are included with the program. These files can be input to Step 1 \texttt{./splitsegments.sh} with any choice of short name.
 
 \bibliography{references}
 \bibliographystyle{apalike}

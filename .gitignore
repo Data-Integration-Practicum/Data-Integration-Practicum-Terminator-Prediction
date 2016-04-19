@@ -4,3 +4,4 @@ userguide/userguide.pdf
 *.gz
 *.log
 *.aux
+*.pdf
