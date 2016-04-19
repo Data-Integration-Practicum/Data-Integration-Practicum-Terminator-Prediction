@@ -1,8 +1,13 @@
+#! /usr/bin/env python
+
 from Bio import SeqIO
 from trainModel import Model
 import pandas as pd
 import pickle
 import sys
+
+# This is file takes a GO term and a file name of genome to be tested
+# as imput, and gives the final prediction
 
 # Classifier's file name
 try:
@@ -22,6 +27,8 @@ for seq_record in SeqIO.parse(genomeFile, "fasta"):
     count = 0
     sequence = seq_record.seq
     while i + 400 < len(sequence):
+        
+        # Print every 16,000 bps are processed
         if i % 16000 == 0:
             print seq_record.id + " has been processed for " + str(i) + " bp"
             print "Currently, " + str(count) + " segments are predicted as TTS"

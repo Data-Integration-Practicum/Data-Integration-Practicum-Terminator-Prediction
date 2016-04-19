@@ -1,16 +1,19 @@
+#! /usr/bin/env python
+
 from sklearn.ensemble import RandomForestClassifier
-import pickle
-
 from featureHelpers import *
-
 import numpy as np
 import random
+import pickle
 import sys
 
+# This is the file that is used for getting classifier, given the 
+# specific GO term the user input
+
+# The GO term as the only parameter that is passed in
+GO = sys.argv[1]
 
 rf = RandomForestClassifier(criterion="entropy", n_estimators = 300, max_depth = 100)
-
-GO = sys.argv[1]
 
 #####################
 # Get Train samples #
@@ -54,12 +57,14 @@ X = np.array(list(PosFeatures) + list(random.sample(NegFeatures,npos)), dtype=np
 #y: labels
 y = np.array([1 for x in xrange(npos)] + [0 for x in xrange(npos)])
 
+# Randomize the data points, might not be neccesary, only for parameter adjustion use 
 combined = zip(X, y)
 random.shuffle(combined)
 X, y = zip(*combined)
 
 rf.fit(X, y)
 
+# Generate the Model class
 class Model():
 	# Calculate the feature of the newly passed in sequence
 	def __init__(self):
@@ -77,4 +82,5 @@ class Model():
 
 model = Model()
 
+# Save it into the classifier folder for future use
 pickle.dump(model, open('./classifiers/' + GO, "w"))

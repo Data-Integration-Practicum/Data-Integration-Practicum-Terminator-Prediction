@@ -2,6 +2,9 @@ from sklearn.ensemble import RandomForestClassifier
 
 import numpy as np
 
+# This is the script file that support the helper functions used in 
+# trainModel.py script
+
 def GCFeat(seq):
     nGC = [0,0,0,0,0,0,0,0]
     for seg in xrange(8):
