@@ -1,6 +1,11 @@
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.externals import joblib
+
+from featureHelpers import *
+
 import numpy as np
 import random
+import sys
 
 class PredictModel():
 	rf = RandomForestClassifier(criterion="entropy", n_estimators = 300, max_depth = 100)
@@ -11,9 +16,12 @@ class PredictModel():
 		# Get PSSMs
 		allPSSMFiles = ["./" + self.GO + "/segment" + str(i) + "-" + str(j) \
 						for i in xrange(1,9) for j in xrange(4)]
-		allPSSMs = [readMatrix(f) for f in allPSSMFiles]
 
-		self.allPSSMs = allPSSMs
+		self.allPSSMs = [readMatrix(f) for f in allPSSMFiles]
+
+		# GCFeat returns a list of all 8
+		self.PosFeatures = [GCFeat(seq) for seq in pos if seq[0] != '>']
+		self.NegFeatures = [GCFeat(seq) for seq in neg if seq[0] != '>']
 
 		self.__trainModel()
 
@@ -27,11 +35,10 @@ class PredictModel():
 		return rf.predict(feat)[0]
 
 	# Run this before get prediction
-	def __trainModel():
+	def __trainModel(self):
 		with open("negative.fa") as F:
-		neg=F.readlines()
-
-		nneg = len(neg)/2
+			neg = F.readlines()
+			nneg = len(neg)/2
 
 		with open("./" + self.GO + "/trimmedseqs.fa") as F:
 		    pos=F.readlines()
@@ -41,7 +48,7 @@ class PredictModel():
 		neg = [neg[i*2+1] for i in S]
 		nmotifs = 4 #sys.argv[1]
 
-		for M in allPSSMs:
+		for M in self.allPSSMs:
 		    for i in xrange(npos): 
 		        PosFeatures[i].append(computeMaxScore(M,pos[i*2+1]))
 		        NegFeatures[i].append(computeMaxScore(M,neg[i]))
@@ -57,3 +64,9 @@ class PredictModel():
 		X, y = zip(*combined)
 
 		rf.fit(X, y)
+
+GO = sys.argv[1]
+
+model = PredictModel(GO)
+
+joblib.dump(model, 'classifier' + '_' + GO)
