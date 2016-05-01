@@ -1,0 +1,82 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bailey and Elkan(1994)]{meme}
+T.~L. Bailey and C.~Elkan.
+\newblock Fitting a mixture model by expectation maximization to discover
+  motifs in biopolymers.
+\newblock \emph{Proceedings of the Second International Conference on
+  Intelligent Systems for Molecular Biology}, pages 28--36, 1994.
+
+\bibitem[Breiman(2001)]{rf}
+L.~Breiman.
+\newblock Random {F}orests.
+\newblock \emph{Machine Learning}, 45\penalty0 (1):\penalty0 5--32, 2001.
+
+\bibitem[Ji et~al.(2007)]{ji07}
+G.~Ji et~al.
+\newblock Predictive modeling of plant messenger {RNA} polyadenylation sites.
+\newblock \emph{BMC Bioinformatics}, 8, 2007.
+
+\bibitem[Kinsella et~al.(2011)]{biomart}
+R.~J. Kinsella et~al.
+\newblock Ensembl {B}io{M}arts: a hub for data retrieval across taxonomic
+  space.
+\newblock \emph{Database (Oxford)}, 2011:\penalty0 2825--2830, 2011.
+
+\bibitem[Law et~al.(2015)]{maize}
+M.~Law et~al.
+\newblock Automated update, revision, and quality control of the maize genome
+  annotations using {MAKER-P} improves the {B73} {R}ef{G}en\_v3 gene models and
+  identifies new genes.
+\newblock \emph{Plant Physiol.}, 167\penalty0 (1):\penalty0 25--39, 2015.
+
+\bibitem[Li and Hunt(1997)]{li97}
+Q.~Li and A.~G. Hunt.
+\newblock The polyadenylation of {RNA} in plants.
+\newblock \emph{Plant Physiol.}, 115:\penalty0 321--325, 1997.
+
+\bibitem[Loke et~al.(2005)]{loke05}
+J.~C. Loke et~al.
+\newblock Compilation of m{RNA} polyadenylation signals in {A}rabidopsis
+  revealed a new signal element and potential secondary structures.
+\newblock \emph{Plant Physiol.}, 138\penalty0 (3):\penalty0 1457--1468, 2005.
+
+\bibitem[Monaco et~al.(2014)]{gramene}
+M.~Monaco et~al.
+\newblock Gramene 2013: comparative plant genomics resources.
+\newblock \emph{Nucleic Acids Res.}, 42\penalty0 (D1):\penalty0 D1193--D1199,
+  2014.
+
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher, Perrot, and Duchesnay]{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock \emph{Journal of Machine Learning Research}, 12:\penalty0 2825--2830,
+  2011.
+
+\bibitem[Rothnie(1996)]{rothnie96}
+H.~Rothnie.
+\newblock Predictive modeling of plant messenger {RNA} polyadenylation sites.
+\newblock \emph{Plant Mol Biol.}, 32:\penalty0 1--2, 1996.
+
+\bibitem[Shen et~al.(2008)]{shen08}
+Y.~Shen et~al.
+\newblock Genome level analysis of rice m{RNA} 3'-end processing signals and
+  alternative polyadenylation.
+\newblock \emph{Nucleic Acids Res.}, 36\penalty0 (9):\penalty0 3150--3161,
+  2008.
+
+\bibitem[{The {G}ene {O}ntology {C}onsortium}(2015)]{go}
+{The {G}ene {O}ntology {C}onsortium}.
+\newblock Gene {O}ntology {C}onsortium: going forward.
+\newblock \emph{Nucleic Acids Res.}, 43:\penalty0 D1049–D1056, 2015.
+
+\end{thebibliography}
