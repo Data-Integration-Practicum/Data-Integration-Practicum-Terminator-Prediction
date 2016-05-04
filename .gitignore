@@ -3,5 +3,3 @@ userguide/userguide.bbl
 userguide/userguide.pdf
 *.gz
 *.log
-*.aux
-*.pdf
