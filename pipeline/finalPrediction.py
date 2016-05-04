@@ -5,6 +5,7 @@ from trainModel import Model
 import pandas as pd
 import pickle
 import sys
+import re
 
 """
     This is file takes a GO term and a file name of genome to be tested
@@ -26,32 +27,44 @@ except IOError:
 columns = ['ID', 'Offset', 'Nearby Sequence']
 results = pd.DataFrame(columns=columns)
 
+partCount = 0
 for seq_record in SeqIO.parse(genomeFile, "fasta"):
-    i = 0
     count = 0
-    sequence = seq_record.seq
-    while i + 400 < len(sequence):
 
-        # Print every 16,000 bps are processed
-        if i % 16000 == 0:
-            print seq_record.id + " has been processed for " + str(i) + " bp"
-            print "Currently, " + str(count) + " segments are predicted as TTS"
+    sequence = str(seq_record.seq)
+    sequenceSegments = re.split(r'N+', sequence)
+    offsets = [0] + [m.end(0) for m in re.finditer(r'N+', sequence)]
 
+    print "offset calc done"
 
-        currSeq = str(sequence[i:i+400])
-        prediction = 0
-        
-        if "N" not in currSeq:            
+    posSegPair = zip(offsets, sequenceSegments)
+
+    for offset, segment in posSegPair:
+        j = 0
+
+        print seq_record.id + " has been processed for " + str(offset) + " bp"
+        print "Currently, " + str(count) + " segments are predicted as TTS"
+
+        if (offset + j) % 10000000 and offset >= 0:
+            partCount = partCount + 1 
+            print "Outputing result file of part " + str(partCount)
+            results.to_csv('./results/' + GO + '_TTS_' + fileName + '_part-' + str(partCount) + '.csv')
+            print "Done!"
+            results = pd.DataFrame(columns=columns)
+
+        while j + 400 < len(segment):
+
+            currSeq = str(segment[j:j+400])
+            
             prediction = model.predict(currSeq)
             
             if prediction == 1:
                 ## add seq_record.id, offset(i+300), nearby sequence(str(seq_record[i+300:i+400])), to results dataframe
-                curDF = [seq_record.id, i+300, str(sequence[i+300:i+400])]
+                curDF = [seq_record.id, j+offset+300, str(segment[j+300:j+400])]
                 results.loc[len(results)] = curDF
-
                 count = count + 1
-                
-        i = i + 50
+                    
+            j = j + 50
 
 # Output the prediction result
 results.to_csv('./results/' + GO + '_TTS_' + fileName + '.csv')
