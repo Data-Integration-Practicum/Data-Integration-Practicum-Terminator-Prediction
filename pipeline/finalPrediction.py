@@ -45,7 +45,7 @@ for seq_record in SeqIO.parse(genomeFile, "fasta"):
         print seq_record.id + " has been processed for " + str(offset) + " bp"
         print "Currently, " + str(count) + " segments are predicted as TTS"
 
-        if (offset + j) % 10000000 and offset >= 0:
+        if (offset + j) % 10000000 == 0 and offset >= 0:
             partCount = partCount + 1 
             print "Outputing result file of part " + str(partCount)
             results.to_csv('./results/' + GO + '_TTS_' + fileName + '_part-' + str(partCount) + '.csv')
