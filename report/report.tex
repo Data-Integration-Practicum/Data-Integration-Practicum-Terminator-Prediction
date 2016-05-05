@@ -84,6 +84,12 @@ The classifier classifies an input 400bp sequence as either ``has TTS at positio
 \indent We applied the classifier described above to the four datasets we had downloaded from BioMart based on GO terms: salt stress, photosynthesis, water deprivation, and ribosome. Figure \ref{fig:box} shows boxplots for the accuracy, false positive rate, and false-positive rate for five trials of five-fold cross-validation. \\
 
 \indent All classifiers achieved accuracy of 0.7-0.8, although salt stress had a bit higher performance overall. This was the largest dataset we tested in terms of number of sequences. Perhaps patterns can be more clearly characterized by the PSSM features in a larger dataset. Ribosome was the least variable in accuracy among trials (as well as FP and FN rates). In general, the false positive rate was higher than the false negative rate. To decrease the false positive rate, it may be possible to weight errors for the positive examples more than errors for the negative examples. This would be equivalent to adding copies of each positive examples and continuing to use the zero-one loss function. For this particular classification problem, false negatives would be preferred to false positives. We would rather miss putative TSS than output an overwhelming number of spurious TSS predictions.\\
+\begin{figure}[]
+\centering
+\includegraphics[scale=0.5]{window.png}
+\caption{Schematic of genome scanning procedure}
+\label{fig:window}
+\end{figure}
 
 \begin{sidewaysfigure}[h]
 \centering
@@ -96,7 +102,11 @@ The classifier classifies an input 400bp sequence as either ``has TTS at positio
 
 The prediction of new TTS in the genome is made with the Python routine\\ \texttt{finalPrediction.py}. Based on the classifier created in the previous step, 400bp regions classified as TTS in another FASTA file (can be the whole genome or a region) will be identified and outputted.\\
 
-{\Large\textbf{Results}}\\
+The procedure for TTS prediction is shown in Figure \ref{fig:window}. For an input genome (shown here as a sequence of characters), a 400bp window is evaluated at a time. Such a window is shown outliined in orange. This window is then split into eight 50bp segments; PSSM scores and GC content features are calculated for each segment. The resulting feature vector has 40 elements. This feature vector is then classified by the binary random forest classifier. Until the end of the genome is reached, the 400bp window is moved by steps of 100bp.
+
+
+
+%{\Large\textbf{Results}}\\
 
 
 %TODO Results of applying all the sample dataset models to the genome.
