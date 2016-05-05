@@ -18,6 +18,9 @@ genomeFile = sys.argv[2]
 
 fileName = genomeFile.split('/')[-1][:-3]
 
+# Specifying the maximum length of bp in a file
+maximumFileBP = 100000
+
 try:
     model = pickle.load(open('./classifiers/' + GO, "r"))
 except IOError:
@@ -27,13 +30,15 @@ except IOError:
 columns = ['ID', 'Offset', 'Nearby Sequence']
 results = pd.DataFrame(columns=columns)
 
-partCount = 0
 for seq_record in SeqIO.parse(genomeFile, "fasta"):
     count = 0
 
     sequence = str(seq_record.seq)
     sequenceSegments = re.split(r'N+', sequence)
+    
     offsets = [0] + [m.end(0) for m in re.finditer(r'N+', sequence)]
+
+    fileNum = range(1, len(sequence)/maximumFileBP + 2)
 
     print "offset calc done"
 
@@ -45,14 +50,14 @@ for seq_record in SeqIO.parse(genomeFile, "fasta"):
         print seq_record.id + " has been processed for " + str(offset) + " bp"
         print "Currently, " + str(count) + " segments are predicted as TTS"
 
-        if (offset + j) % 10000000 == 0 and offset >= 0:
-            partCount = partCount + 1 
-            print "Outputing result file of part " + str(partCount)
-            results.to_csv('./results/' + GO + '_TTS_' + fileName + '_part-' + str(partCount) + '.csv')
-            print "Done!"
-            results = pd.DataFrame(columns=columns)
-
         while j + 400 < len(segment):
+
+            if (offset + j) / maximumFileBP == fileNum[0]:
+                partCount = str(fileNum.pop(0))
+                print "Outputing result file of part " + partCount
+                results.to_csv('./results/' + GO + '_TTS_' + fileName + '_part-' + partCount + '.csv')
+                print "Done!"
+                results = pd.DataFrame(columns=columns)
 
             currSeq = str(segment[j:j+400])
             
