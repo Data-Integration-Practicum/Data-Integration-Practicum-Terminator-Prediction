@@ -35,7 +35,7 @@ nmotifs = 4 #sys.argv[1]
 # Get PSSMs #
 #############
 
-allPSSMFiles = [GO + "/" + "segment" + str(i) + "/segment" + str(i) + "-" + str(j) \
+allPSSMFiles = [GO + "/segment" + str(i) + "-" + str(j) \
 			   for i in xrange(1,9) for j in xrange(nmotifs)]
 allPSSMs = [readMatrix(f) for f in allPSSMFiles]
 
