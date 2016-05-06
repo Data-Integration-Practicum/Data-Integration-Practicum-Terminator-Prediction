@@ -19,7 +19,7 @@ public class Test {
 			String[] tmp = line.split(":");
 			
 			// int chNo = Integer.parseInt(tmp[0]);
-			//if (tmp[3].equals("1 ") && tmp[0].matches("[1-9]|10")) {
+			// if (tmp[3].equals("1 ") && tmp[0].matches("[1-9]|10")) {
 			if (tmp[0].matches("[1-9]|10")) {
 				Integer chNo = Integer.parseInt(tmp[0]);
 			    //System.out.println(tmp[0]);
@@ -49,37 +49,39 @@ public class Test {
 		int dif1000 = 0;
 		while (scanner != null && scanner.hasNextLine()) {
 			String line = scanner.nextLine();
-			all++;
 			String[] tmp = line.split(",");
-			//System.out.println(Arrays.toString(tmp));
+			System.out.println(Arrays.toString(tmp));
 			int chNo = Integer.parseInt(tmp[0]);
 			Long pred = Long.parseLong(tmp[1]);
-			//System.out.println(tmp[1]);
-			HashSet<Long> curr = positive.get(chNo);
-			for (Long end : curr) {
-				if (Math.abs(pred - end) <= 30) {
-					dif30++;
-					break;
-				}
-				if (Math.abs(pred - end) <= 50) {
-					dif50++;
-					break;
-				}
-				if (Math.abs(pred - end) <= 100) {
-					dif100++;
-					break;
-				}
-				if (Math.abs(pred - end) <= 200) {
-					dif200++;
-					break;
-				}
-				if (Math.abs(pred - end) <= 500) {
-					dif500++;
-					break;
-				}
-				if (Math.abs(pred - end) <= 1000) {
-					dif1000++;
-					break;
+			if(pred > 10000000) {
+				all++;
+				//System.out.println(tmp[1]);
+				HashSet<Long> curr = positive.get(chNo);
+				for (Long end : curr) {
+					if (Math.abs(pred - end) <= 30) {
+						dif30++;
+						break;
+					}
+					if (Math.abs(pred - end) <= 50) {
+						dif50++;
+						break;
+					}
+					if (Math.abs(pred - end) <= 100) {
+						dif100++;
+						break;
+					}
+					if (Math.abs(pred - end) <= 200) {
+						dif200++;
+						break;
+					}
+					if (Math.abs(pred - end) <= 500) {
+						dif500++;
+						break;
+					}
+					if (Math.abs(pred - end) <= 1000) {
+						dif1000++;
+						break;
+					}
 				}
 			}
 		}
